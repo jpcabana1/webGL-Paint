@@ -127,9 +127,9 @@ function initBuffers(gl) {
 // Draw the scene.
 //
 function drawScene(gl, programInfo, buffers, deltaTime) {
-  var red = document.getElementById("red").value;
-  var green = document.getElementById("green").value;
-  var blue = document.getElementById("blue").value;
+  let red = document.getElementById("red").value;
+  let green = document.getElementById("green").value;
+  let blue = document.getElementById("blue").value;
   gl.clearColor(red, green, blue, 1.0); // Clear to black, fully opaque
   gl.clearDepth(1.0); // Clear everything
   gl.enable(gl.DEPTH_TEST); // Enable depth testing
@@ -137,7 +137,8 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  const fieldOfView = (135 * Math.PI) / 180; // in radians
+  let cameraDistance = document.getElementById("camera").value;
+  const fieldOfView = (cameraDistance * Math.PI) / 180; // in radians
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
   const zNear = 0.1;
   const zFar = 100.0;
@@ -167,9 +168,10 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
   var xAxisScale;
   var yAyAxisScalexis;
 
-  if (document.getElementById("xAxisScale").value === true) {
+  if (document.getElementById("chkProportional").checked === true) {
     xAxisScale = document.getElementById("xAxisScale").value;
     yAyAxisScalexis = document.getElementById("xAxisScale").value;
+    document.getElementById("yAxisScale").value = yAyAxisScalexis;
   } else {
     xAxisScale = document.getElementById("xAxisScale").value;
     yAyAxisScalexis = document.getElementById("yAxisScale").value;

@@ -14,28 +14,45 @@
   <body>
     <div>
       <canvas id="glcanvas" width="640" height="480"></canvas>
-      <label>Red</label>
-      <input type="text" id="red" value=0.0>
-      <label>Green</label>
-      <input type="text" id="green" value=0.0>
-      <label>Blue</label>
-      <input type="text" id="blue" value=0.0>
-      <br>
-      
-      <label>X translate</label>
-      <input type="text" id="xAxis" value=0.0>
-      <label>Y translate</label>
-      <input type="text" id="yAxis" value=0.0>
-      <br>
-      <br>
-      
-      <label>X scale</label>
-      <input type="text" id="xAxisScale" value=1.0>
-      <label>Y scale</label>
-      <input type="text" id="yAxisScale" value=1.0>
-
-      <label>scale proportional</label>
-      <input type="checkbox" id="chkProportional" value=1.0>
+    </div>
+    <div classname="pPanel">
+      <form>
+        <label>Camera</label>
+  
+        <input type="text" id="camera" value=135.0>
+        <br>
+        
+        <label style="color: red;">Red</label>
+        <br>
+        <input type="text" id="red" value=0.0>
+        <br>
+        <label style="color: green;">Green</label>
+        <br>
+        <input type="text" id="green" value=0.0>
+        
+        <br>
+        <label style="color: blue;">Blue</label>
+        <br>
+        <input type="text" id="blue" value=0.0>
+        <br>
+        <br>
+        <label>X translate</label>
+        <input type="text" id="xAxis" value=0.0>
+        <br>
+        <label>Y translate</label>
+        <input type="text" id="yAxis" value=0.0>
+        <br>
+        <br>
+        
+        <label>X scale</label>
+        <input type="text" id="xAxisScale" value=1.0>
+        <br>
+        <label>Y scale</label>
+        <input type="text" id="yAxisScale" value=1.0>
+        <br>
+        <label>scale proportional</label>
+        <input type="checkbox" id="chkProportional" value=1.0>
+      </form>
     </div>
   </body>
 </html>
