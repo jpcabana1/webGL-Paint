@@ -8,8 +8,8 @@
       integrity="sha512-zhHQR0/H5SEBL3Wn6yYSaTTZej12z0hVZKOv3TwCUXT1z5qeqGcXJLLrbERYRScEDDpYIJhPC1fk31gqR783iQ=="
       crossorigin="anonymous" defer>
     </script>
-    <script src="webgl-demo.js" defer></script>
-    <!-- <script src="code.js" defer></script> -->
+    <!-- <script src="webgl-demo.js" defer></script> -->
+    <script src="code.js" defer></script>
     <script src="Inputs.js" defer></script>
   </head>
 
@@ -24,13 +24,17 @@
           <label>Camera</label>
           <br>
           <input type="range" id="camera" min="10" max="140" step="10" value=140>
-          <br>
-          <label>Index</label>
-          <br>
-          <input type="range" id="indexObjects" min="0" max="1" step="1" value=0>
-          <br>
+         <div>
+            <br>
+            <label>Index</label>
+            <br>
+            <input type="button" id="btnDecreaseIndex" value="-" onclick="btnDecreaseIndexClick()">
+            <input type="text" id="indexObjects" value="0">
+            <input type="button" id="btnIncreaseIndex" value="+" onclick="btnIncreaseIndexClick()">
+            <br>
+         </div>
           <div style="float: left;">
-            <h2>Background</h2>
+            <h2>FUNDO</h2>
             <label style="color: red;">Red</label>
             <br>
             <input type="range" id="red" min="0" max="1" step="0.01" value=0.0>
@@ -46,7 +50,7 @@
             <br>
           </div>
           <div style="float: left;">
-            <h2>Object</h2>
+            <h2>OBJETO</h2>
             <label style="color: red;">Red</label>
             <br>
             <input type="range" id="redObject" min="0" max="1" step="0.01" value=1.0>
@@ -59,11 +63,12 @@
             <br>
             <input type="range" id="blueObject" min="0" max="1" step="0.01" value=0.0>
             <br>
-            <label>edit color</label>
+            <label>Edit color</label>
             <input type="checkbox" id="chkColor" value=1.0>
             <br>
           </div>
           <br>
+          <!-- TRANSLATION -->
           <div > 
             <label>X translate</label>
             <input type="button" id="btnSubTranslateX" value="-" onclick="btnSubTranslateXClick()">
@@ -75,24 +80,26 @@
             <input type="text" id="yAxis" value=0.0 readonly>
             <input type="button" id="btnAddTranslateY" value="+" onclick="btnAddTranslateYClick()">
             
-            <label>edit position</label>
+            <label>Edit position</label>
             <input type="checkbox" id="chkTranslate" value=1.0>
             <br>
           </div>
         
-          
+          <!-- SCALE -->
           <label>X scale</label>
           <input type="button" id="btnSubScaleX" value="-" onclick="btnSubScaleXClick()">
-          <input type="text" id="xAxisScale" value=1.0 readonly>
+          <input type="text" id="xAxisScale" value=0.1 readonly>
           <input type="button" id="btnAddScaleX" value="+" onclick="btnAddScaleXClick()">
           <br>
           <label>Y scale</label>
           <input type="button" id="btnSubScaleY" value="-" onclick="btnSubScaleYClick()">
-          <input type="text" id="yAxisScale" value=1.0 readonly>
+          <input type="text" id="yAxisScale" value=0.1 readonly>
           <input type="button" id="btnAddScaleY" value="+" onclick="btnAddScaleYClick()">
 
           <label>scale proportional</label>
           <input type="checkbox" id="chkProportional" checked=true value=1.0>
+          <label>Edit scale</label>
+          <input type="checkbox" id="chkScale">
         </form>
         <div>
           <br>
@@ -103,8 +110,8 @@
             <input type="text" name="Y" id="mouseAxisY" value=0.0 readonly>
         </div>
       </div>
-      <input type="button" id="btnDelete" value="Remover">
-      <input type="button" id="btnDelete" value="Adicionar">
+      <input type="button" id="btnDelete" value="Remover" onclick="deleteProgram()">
+      <input type="button" id="btnDelete" value="Adicionar" onclick="createObject()">
       </div>
     </div>
     
