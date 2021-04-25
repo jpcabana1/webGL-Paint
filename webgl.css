@@ -7,5 +7,9 @@ video {
 }
 
 .pPanel {
-  float: left;
+  display: grid;
+  place-items: center;
+  background-color: aquamarine;
+  width: 100rem;
+  height: 40rem;
 }
