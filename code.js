@@ -319,12 +319,12 @@ function canvasListener(canvas) {
 function createObject() {
   programs.push(addProgram(gl, vsSource(), fsSource(), square));
   console.log(programs);
-
-  if (programs.length === 1) {
-    document.getElementById("indexObjects").value = 1;
-  } else {
-    document.getElementById("indexObjects").value = programs.length - 1;
-  }
+  document.getElementById("indexObjects").value = programs.length - 1;
+  // if (programs.length === 1) {
+  //   document.getElementById("indexObjects").value = 1;
+  // } else {
+  //   document.getElementById("indexObjects").value = programs.length - 1;
+  // }
 }
 
 function deleteProgram() {
