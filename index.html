@@ -14,14 +14,14 @@
   </head>
 
   <body>
-    <div class="">
-      <div style="float: left;">
+    <div class="row">
+      <div style="float: left;"  class="column">
         <canvas id="glcanvas" width="640" height="480"></canvas>
       </div>
-      <div>
+      <div  class="column">
         <form>
            <br>
-          <label>Camera</label>
+          <label>Zoom</label>
           <br>
           <input type="range" id="camera" min="10" max="140" step="10" value=140>
          <div>
@@ -49,7 +49,7 @@
             <br>
             <br>
           </div>
-          <div style="float: left;">
+          <div style="float: none;">
             <h2>OBJETO</h2>
             <label style="color: red;">Red</label>
             <br>
@@ -69,7 +69,7 @@
           </div>
           <br>
           <!-- TRANSLATION -->
-          <div > 
+          <div class="translado"> 
             <label>X translate</label>
             <input type="button" id="btnSubTranslateX" value="-" onclick="btnSubTranslateXClick()">
             <input type="text" id="xAxis" value=0.0 >
@@ -79,13 +79,15 @@
             <input type="button" id="btnSubTranslateY" value="-" onclick="btnSubTranslateYClick()">
             <input type="text" id="yAxis" value=0.0 >
             <input type="button" id="btnAddTranslateY" value="+" onclick="btnAddTranslateYClick()">
-            
+            <br>
+
             <label>Edit position</label>
             <input type="checkbox" id="chkTranslate" checked=true value=1.0>
             <br>
           </div>
         
           <!-- SCALE -->
+          
           <label>X scale</label>
           <input type="button" id="btnSubScaleX" value="-" onclick="btnSubScaleXClick()">
           <input type="text" id="xAxisScale" value=0.1 >
@@ -96,6 +98,7 @@
           <input type="text" id="yAxisScale" value=0.1 >
           <input type="button" id="btnAddScaleY" value="+" onclick="btnAddScaleYClick()">
 
+          <br>
           <label>scale proportional</label>
           <input type="checkbox" id="chkProportional" checked=true value=1.0>
           <label>Edit scale</label>
@@ -110,8 +113,11 @@
             <input type="text" name="Y" id="mouseAxisY" value=0.0 readonly>
         </div>
       </div>
-      <input type="button" id="btnDelete" value="Remover" onclick="deleteProgram()">
-      <input type="button" id="btnDelete" value="Adicionar" onclick="createObject()">
+      
+      </div>
+      <div class="column">
+        <input type="button" id="btnDelete" value="Remover" onclick="deleteProgram()" class="dropbtn">
+        <input type="button" id="btnDelete" value="Adicionar" onclick="createObject()" class="dropbtn">
       </div>
     </div>
     
