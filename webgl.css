@@ -6,7 +6,6 @@ video {
   display: none;
 }
 
-
 .pPanel {
   display: grid;
   place-items: center;
@@ -14,12 +13,12 @@ video {
   width: 100rem;
   height: 40rem;
 }
-.translado{
+.translado {
   display: none;
 }
 
 .dropbtn {
-  background-color: #3498DB;
+  background-color: #3498db;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -27,8 +26,9 @@ video {
   cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #2980B9;
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #2980b9;
 }
 
 .row:after {
