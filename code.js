@@ -1,23 +1,11 @@
 let programs = [];
 let currentProgram = 0;
 let squareRotation = 0.0;
-
-main();
-
-function main() {
-  const canvas = document.querySelector("#glcanvas");
-  const gl = canvas.getContext("webgl");
-
-  if (!gl) {
-    alert(
-      "Unable to initialize WebGL. Your browser or machine may not support it."
-    );
-    return;
-  }
-
-  const vsSource = () => {
-    // Vertex shader program
-    return `
+const canvas = document.querySelector("#glcanvas");
+const gl = canvas.getContext("webgl");
+const vsSource = () => {
+  // Vertex shader program
+  return `
         attribute vec4 aVertexPosition;
         attribute vec4 aVertexColor;
         
@@ -31,10 +19,10 @@ function main() {
           vColor = aVertexColor;
         }
         `;
-  };
-  const fsSource = () => {
-    // Fragment shader program
-    return `
+};
+const fsSource = () => {
+  // Fragment shader program
+  return `
         precision mediump float;
         uniform vec4 ourColor; // we set this variable in the OpenGL code.
         
@@ -43,23 +31,28 @@ function main() {
           gl_FragColor = ourColor;
         }   
         `;
-  };
+};
 
-  //   programs.push());
-  //   programs.push(initShaderProgram(gl, vsSource(), fsSource()));
+const square = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+const triangule = [0.0, -0.5, 0.0, 0.9, -0.5, 0.0, 0.45, 0.5, 0.0];
 
-  const square = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
-  const triangule = [0.0, -0.5, 0.0, 0.9, -0.5, 0.0, 0.45, 0.5, 0.0];
+main();
 
-  programs.push(addProgram(gl, vsSource(), fsSource(), square));
-  programs.push(addProgram(gl, vsSource(), fsSource(), square));
-  programs.push(addProgram(gl, vsSource(), fsSource(), square));
+function main() {
+  if (!gl) {
+    alert(
+      "Unable to initialize WebGL. Your browser or machine may not support it."
+    );
+    return;
+  }
 
+  canvasListener(canvas);
   console.log(programs);
+
   var then = 0;
 
   function render(now) {
-    now *= 0.001; // convert to seconds
+    now *= 0.001;
     const deltaTime = now - then;
     then = now;
 
@@ -90,80 +83,21 @@ function drawScene(gl, deltaTime) {
   const projectionMatrix = mat4.create();
   mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
 
-  //TRANSFORMAÇÕES
-
   currentProgram = parseInt(document.getElementById("indexObjects").value);
 
-  //Translação1
-  const modelViewMatrix = mat4.create();
-  let translation = vec3.create();
-  let xAxis = parseFloat(document.getElementById("xAxis").value);
-  let yAxis = parseFloat(document.getElementById("yAxis").value);
-  vec3.set(
-    translation,
-    xAxis * (cameraDistance / 15),
-    yAxis * (cameraDistance / 15),
-    -3.0
-  );
+  //TRANSFORMAÇÕES
+  if (programs.length > 0) {
+    //DESENHAR OBJETOS
+    for (let i = 0; i < programs.length; i++) {
+      let actualProgram = programs[i];
+      drawObject(gl, actualProgram, projectionMatrix, cameraDistance);
+    }
 
-  mat4.translate(modelViewMatrix, modelViewMatrix, translation);
-  let actualProgram = programs[currentProgram];
-  drawObject(
-    gl,
-    actualProgram,
-    projectionMatrix,
-    modelViewMatrix,
-    cameraDistance
-  );
-
-  //Translação2
-  const modelViewMatrix2 = mat4.create();
-  actualProgram = programs[1];
-  let translation2 = vec3.create();
-  vec3.set(
-    translation2,
-    actualProgram.objectTranslate.x * (cameraDistance / 15),
-    actualProgram.objectTranslate.y * (cameraDistance / 15),
-    -3.0
-  );
-  mat4.translate(modelViewMatrix2, modelViewMatrix2, translation2);
-  drawObject(
-    gl,
-    actualProgram,
-    projectionMatrix,
-    modelViewMatrix2,
-    cameraDistance
-  );
-
-  //Translação3
-  const modelViewMatrix3 = mat4.create();
-  actualProgram = programs[2];
-  let translation3 = vec3.create();
-  vec3.set(
-    translation3,
-    actualProgram.objectTranslate.x + 1 * (cameraDistance / 15),
-    actualProgram.objectTranslate.y + 1 * (cameraDistance / 15),
-    -3.0
-  );
-  mat4.translate(modelViewMatrix3, modelViewMatrix3, translation3);
-  drawObject(
-    gl,
-    actualProgram,
-    projectionMatrix,
-    modelViewMatrix3,
-    cameraDistance
-  );
-
-  squareRotation += deltaTime;
+    squareRotation += deltaTime;
+  }
 }
 
-function drawObject(
-  gl,
-  object,
-  projectionMatrix,
-  modelViewMatrix,
-  cameraDistance
-) {
+function drawObject(gl, object, projectionMatrix, cameraDistance) {
   {
     const numComponents = 2;
     const type = gl.FLOAT;
@@ -190,14 +124,57 @@ function drawObject(
     projectionMatrix
   );
 
-  //   } else {
-  //     vec3.set(
-  //       translation,
-  //       object.objectTranslate.x * (cameraDistance / 15),
-  //       object.objectTranslate.y * (cameraDistance / 15),
-  //       -3.0
-  //     );
-  //   }
+  //TRANSLAÇÃO
+  const modelViewMatrix = mat4.create();
+  let translation = vec3.create();
+
+  if (object.id === currentProgram) {
+    if (document.getElementById("chkTranslate").checked === true) {
+      let xAxis = parseFloat(document.getElementById("xAxis").value);
+      let yAxis = parseFloat(document.getElementById("yAxis").value);
+      object.objectTranslate.x = xAxis;
+      object.objectTranslate.y = yAxis;
+    }
+
+    vec3.set(
+      translation,
+      object.objectTranslate.x * (cameraDistance / 15),
+      object.objectTranslate.y * (cameraDistance / 15),
+      -3.0
+    );
+  } else {
+    vec3.set(
+      translation,
+      object.objectTranslate.x * (cameraDistance / 15),
+      object.objectTranslate.y * (cameraDistance / 15),
+      -3.0
+    );
+  }
+
+  mat4.translate(modelViewMatrix, modelViewMatrix, translation);
+
+  //ESCALA
+  if (object.id === currentProgram) {
+    let xAxisScale;
+    let yAxisScale;
+    if (document.getElementById("chkScale").checked === true) {
+      if (document.getElementById("chkProportional").checked === true) {
+        xAxisScale = document.getElementById("xAxisScale").value;
+        yAxisScale = document.getElementById("xAxisScale").value;
+        document.getElementById("yAxisScale").value = yAxisScale;
+      } else {
+        xAxisScale = document.getElementById("xAxisScale").value;
+        yAxisScale = document.getElementById("yAxisScale").value;
+      }
+      object.objectScale.x = xAxisScale;
+      object.objectScale.y = yAxisScale;
+    }
+  }
+  mat4.scale(modelViewMatrix, modelViewMatrix, [
+    object.objectScale.x * (cameraDistance / 15),
+    object.objectScale.y * (cameraDistance / 15),
+    1,
+  ]);
 
   gl.uniformMatrix4fv(
     object.uniformLocations.modelViewMatrix,
@@ -206,10 +183,12 @@ function drawObject(
   );
 
   //EDITAR COR
-  if (document.getElementById("chkColor").checked) {
-    object.objectColor.red = document.getElementById("redObject").value;
-    object.objectColor.green = document.getElementById("greenObject").value;
-    object.objectColor.blue = document.getElementById("blueObject").value;
+  if (object.id === currentProgram) {
+    if (document.getElementById("chkColor").checked) {
+      object.objectColor.red = document.getElementById("redObject").value;
+      object.objectColor.green = document.getElementById("greenObject").value;
+      object.objectColor.blue = document.getElementById("blueObject").value;
+    }
   }
 
   //ATUALIZAR COR
@@ -257,6 +236,10 @@ function addProgram(gl, vsSrc, fsSrc, positions) {
       x: 0.0,
       y: 0.0,
     },
+    objectScale: {
+      x: 0.1,
+      y: 0.1,
+    },
   };
 }
 
@@ -302,4 +285,65 @@ function initBuffers(gl, positions) {
   return {
     position: positionBuffer,
   };
+}
+
+function canvasListener(canvas) {
+  let mousedown = false;
+  canvas.addEventListener("mousedown", () => {
+    mousedown = true;
+  });
+  canvas.addEventListener("mouseup", () => {
+    mousedown = false;
+    // document.getElementById("mouseAxisX").value = 0.0;
+    // document.getElementById("mouseAxisY").value = 0.0;
+  });
+  canvas.addEventListener("mousemove", (e) => {
+    if (mousedown) {
+      let transX = parseFloat(document.getElementById("xAxis").value);
+      let xAxis = (e.clientX / canvas.clientWidth) * 2 - 1;
+
+      document.getElementById("xAxis").value = xAxis;
+
+      let yAxis = (e.clientY / canvas.clientHeight) * 2 - 1;
+      document.getElementById("yAxis").value = -1 * yAxis;
+      // document.getElementById("mouseAxisY").value =
+      //   (e.clientY / canvas.clientHeight) * 2 - 1;
+      // document.getElementById("mouseAxisY").value =
+      //   e.clientY / canvas.clientHeight;
+      // document.getElementById("xAxis").value = e.clientX / canvas.clientWidth;
+      // document.getElementById("yAxis").value = e.clientY / canvas.clientHeight;
+    }
+  });
+}
+
+function createObject() {
+  programs.push(addProgram(gl, vsSource(), fsSource(), square));
+  console.log(programs);
+  document.getElementById("indexObjects").value = programs.length - 1;
+  // if (programs.length === 1) {
+  //   document.getElementById("indexObjects").value = 1;
+  // } else {
+  //   document.getElementById("indexObjects").value = programs.length - 1;
+  // }
+}
+
+function deleteProgram() {
+  let lastProgram = programs[programs.length - 1];
+
+  if (lastProgram !== undefined) {
+    console.log(lastProgram.id);
+    gl.deleteProgram(lastProgram.program);
+    programs.pop();
+    if (programs.length === 0) {
+      document.getElementById("indexObjects").value = 0;
+    } else {
+      document.getElementById("indexObjects").value = programs.length - 1;
+    }
+    for (let i = 0; i < programs.length; i++) {
+      let program = programs[i];
+      program.id = i;
+    }
+  }
+
+  console.log(programs);
 }

@@ -1,5 +1,5 @@
 //TRANSLATE
-let valTransformation = 0.15;
+let valTransformation = 0.005;
 
 function btnSubTranslateXClick() {
   document.getElementById("xAxis").value =
@@ -40,4 +40,21 @@ function btnSubScaleYClick() {
 function btnAddScaleYClick() {
   document.getElementById("yAxisScale").value =
     parseFloat(document.getElementById("yAxisScale").value) + valTransformation;
+}
+
+//ADD OBJECTS
+function btnIncreaseIndexClick() {
+  let indexObjectsValue = document.getElementById("indexObjects").value;
+  if (indexObjectsValue < programs.length - 1) {
+    document.getElementById("indexObjects").value =
+      parseInt(indexObjectsValue) + 1;
+  }
+}
+
+function btnDecreaseIndexClick() {
+  let indexObjectsValue = document.getElementById("indexObjects").value;
+  if (indexObjectsValue > 0) {
+    document.getElementById("indexObjects").value =
+      parseInt(indexObjectsValue) - 1;
+  }
 }
